@@ -118,9 +118,9 @@ def func_rmse(predict_label,real):
     pathlocal=os.path.join(path,'dist1.mat')
     local=sio.loadmat(pathlocal).get('dist')#56个格点坐标
     tmp = predict_label-np.ones(np.shape(predict_label))
-    predict_2d = local[map(int,tmp)]
+    predict_2d = local[list(map(int,tmp))]
     tmp_real = real-np.ones(np.shape(predict_label))
-    real_2d = local[map(int,tmp_real)]
+    real_2d = local[list(map(int,tmp_real))]
     norm_sqrt = (np.linalg.norm(predict_2d-real_2d,axis=-1))**2
     rmse = np.sqrt(sum(norm_sqrt)/np.shape(predict_label))
     return rmse
