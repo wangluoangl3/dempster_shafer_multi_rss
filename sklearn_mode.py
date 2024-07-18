@@ -194,6 +194,8 @@ if __name__ == '__main__':
         predict_total2.append(predict)
     predict_total1 = np.array(predict_total2)
     predict_total = predict_total1.transpose()
+
+    print("predict_total:", predict_total)
 #    if model_save_file != None:  
 #        pickle.dump(model_save, open(model_save_file, 'wb')) 
     
@@ -288,4 +290,8 @@ if __name__ == '__main__':
     rmse_max = func_rmse(pre_max,truth_chuang)
     rmse_dsjq = func_rmse(pre_dsjq,truth_chuang)
     rmse_test = func_rmse(pre_test,truth_chuang)
-    
+
+print("pre_ds", pre_ds)
+print("rmse_ds", rmse_ds)
+accuracy = sklearn.metrics.accuracy_score(test_y[len_chuang-1:], pre_ds)
+print("accuracy:%.2f%%"%(100*accuracy))  
