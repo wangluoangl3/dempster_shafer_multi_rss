@@ -178,7 +178,7 @@ if __name__ == '__main__':
         print('******************* %s ********************' % classifier) 
         start_time = time.time()  
         model = classifiers[classifier](train_x, train_y)  
-        print('training took %fs!' % (time.time() - start_time))
+        # print('training took %fs!' % (time.time() - start_time))
         predict = model.predict(test_x)  
         if model_save_file != None:  
             model_save[classifier] = model  
@@ -187,7 +187,7 @@ if __name__ == '__main__':
 #            recall = metrics.recall_score(test_y, predict)  
 #            print 'precision: %.2f%%, recall: %.2f%%' % (100 * precision, 100 * recall)  
             tmp = func_rmse(predict,test_y)
-            print(tmp)
+            print("rmse:",tmp)
             rmse_total.append(tmp)
         accuracy = sklearn.metrics.accuracy_score(test_y, predict)  
         print('accuracy: %.2f%%' % (100 * accuracy))  
@@ -195,7 +195,7 @@ if __name__ == '__main__':
     predict_total1 = np.array(predict_total2)
     predict_total = predict_total1.transpose()
 
-    print("predict_total:", predict_total)
+    # print("predict_total:", predict_total)
 #    if model_save_file != None:  
 #        pickle.dump(model_save, open(model_save_file, 'wb')) 
     
@@ -260,12 +260,13 @@ if __name__ == '__main__':
         for i in range(grid_num):
             A[i] = sum(np.multiply(probio_total[i,:],crd))
             # 将可信度作为源权重，估计所有情况下数据出现的概率
-        AA = A
+        # AA = A
+        init_ds = A
         
         # 这部分并没有起到实际作用
         # 对于所有元素均为0-1的概率值，进行元素对于相乘之后并不改变元素的大小排序
         for i in range(len_sf-1):
-            init_ds = np.multiply(AA,A)
+            init_ds = np.multiply(init_ds, A)
             # 分子为与某事件有交集的事件概率之乘积
             k = sum(init_ds)
             # 分母K=∑(所有有交集的事件的概率乘积)
@@ -291,7 +292,8 @@ if __name__ == '__main__':
     rmse_dsjq = func_rmse(pre_dsjq,truth_chuang)
     rmse_test = func_rmse(pre_test,truth_chuang)
 
-print("pre_ds", pre_ds)
-print("rmse_ds", rmse_ds)
+print('*******************D-S ********************')
+# print("pre_ds", pre_ds)
+print("rmse_ds:", rmse_ds)
 accuracy = sklearn.metrics.accuracy_score(test_y[len_chuang-1:], pre_ds)
 print("accuracy:%.2f%%"%(100*accuracy))  
